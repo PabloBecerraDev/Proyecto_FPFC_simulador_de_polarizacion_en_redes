@@ -2,5 +2,10 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <option name="separateProdTestSources" value="false" />
+    <profile name="sbt 1" modules="proyecto-fpfc_4234" />
+    <profile name="sbt 2" modules="Taller 5">
+      <option name="implicitConversions" value="true" />
+      <option name="deprecationWarnings" value="true" />
+    </profile>
   </component>
 </project>

@@ -6,7 +6,7 @@ ThisBuild / scalaVersion := "2.13.8"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "Taller 5"
+    name := "Proyecto - FPFC"
   )
 
 scalacOptions ++= Seq("-language:implicitConversions", "-deprecation")

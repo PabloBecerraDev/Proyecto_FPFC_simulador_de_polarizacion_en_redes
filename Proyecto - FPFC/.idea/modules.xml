@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Proyecto - FPFC.iml" filepath="$PROJECT_DIR$/.idea/modules/Proyecto - FPFC.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Taller 5.iml" filepath="$PROJECT_DIR$/.idea/modules/Taller 5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Taller 5.Taller 5-build.iml" filepath="$PROJECT_DIR$/.idea/modules/Taller 5.Taller 5-build.iml" />
     </modules>
   </component>
 </project>

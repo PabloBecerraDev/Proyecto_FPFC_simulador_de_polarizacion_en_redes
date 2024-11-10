@@ -21,4 +21,23 @@ package object Comete {
         }
     }
 
+    //Función que devuelve el valor de la medida de polarización de COMETE parametrizada en alpha y beta
+    def rhoCMT_Gen(alpha: Double, beta: Double): MedidaPol = {
+        // Función que recibe una distribución y calcula la polarización
+        (distribution: Distribution) => {
+          val (frequencies, values) = distribution
+          val tuples = frequencies.zip(values) //Hacemos tuplas de la distribucion (pi,yi)
+    
+          def rhoAux(p: Double): Double = {
+            //Representación de rhoaux
+            tuples.map { case (pi, y) => Math.pow(pi, alpha) * Math.pow(Math.abs(y - p), beta) }.sum
+          }
+          // Función utilizada en min_p para hallar el punto minimo de opinión en la polarización
+          val f = (p: Double) => rhoAux(p)
+          val min = min_p(f, 0.0, 1.0, 0.001)
+          f(min)
+        }
+      }
+      
+
 }

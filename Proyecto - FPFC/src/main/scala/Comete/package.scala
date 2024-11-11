@@ -1,4 +1,5 @@
 package object Comete {
+
     //Vector que contiene los valores de una distribución - debe sumar 1
     type DistributionValues = Vector[Double]
     //Vector que contiene las frecuencias
@@ -20,9 +21,13 @@ package object Comete {
             min_p(f, newMin, newMax, prec)          
         }
     }
-
-    //Función que devuelve el valor de la medida de polarización de COMETE parametrizada en alpha y beta
-    def rhoCMT_Gen(alpha: Double, beta: Double): MedidaPol = {
+      
+  //Entrada: 
+  //  -alpha: Double (dato usado para la ponderación de comete)
+  //  -beta: Double (dato usado para la ponderación de comete)
+  //Salida:
+  //  El valor de la medida de la polarización de la distribución
+    def rhoCMT_Gen(alpha: Double, beta: Double): PolMeasure = {
         // Función que recibe una distribución y calcula la polarización
         (distribution: Distribution) => {
           val (frequencies, values) = distribution
@@ -38,6 +43,4 @@ package object Comete {
           f(min)
         }
       }
-      
-
 }

@@ -45,7 +45,7 @@ def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
 
     // Calcula la medida de polarización normalizada
     normalized((frequency, distributionValues))
-  }
+  }
 }
 
 

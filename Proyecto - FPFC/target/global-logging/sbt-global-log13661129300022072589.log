@@ -1,0 +1,93 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(early(addPluginSbtFile="""C:\Users\pablo\AppData\Local\Temp\idea.sbt"""), None, None)
+[debug] > Exec(addPluginSbtFile="""C:\Users\pablo\AppData\Local\Temp\idea.sbt""", None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.10.5 (Oracle Corporation Java 17.0.9)
+[debug] Load.defaultLoad until apply took 278.8286ms
+[debug]           Load.loadUnit: plugins took 132.6541ms
+[debug]           Load.loadUnit: defsScala took 0.6371ms
+[debug] [Loading] Scanning directory C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\project
+[debug]             Load.loadUnit: mkEval took 15.4072ms
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 31.7659 ms
+[info] loading settings for project proyecto-fpfc-build from idea.sbt ...
+[debug]               Load.resolveProject(proyecto-fpfc-build) took 58.1052ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id proyecto-fpfc-build, base: C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\project, plugins: List(<none>))) took 103.005ms
+[debug] [Loading] Done in C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\project, returning: (proyecto-fpfc-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 4301.7409ms
+[debug]           Load.loadUnit: cleanEvalClasses took 12.8744ms
+[debug]         Load.loadUnit(file:/C:/Users/pablo/OneDrive/Escritorio/Proyecto_FPFC_simulador_de_polarizacion_en_redes/Proyecto%20-%20FPFC/project/, ...) took 4460.1858ms
+[debug]       Load.apply: load took 4667.5202ms
+[debug]       Load.apply: resolveProjects took 8.8474ms
+[debug]       Load.apply: finalTransforms took 98.746ms
+[debug]       Load.apply: config.delegates took 15.6996ms
+[debug]       Load.apply: Def.make(settings)... took 674.6918ms
+[debug]       Load.apply: structureIndex took 174.4686ms
+[debug]       Load.apply: mkStreams took 3.6815ms
+[info] loading project definition from C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug]     Load.loadUnit: plugins took 8225.6396ms
+[debug]     Load.loadUnit: defsScala took 0.0061ms
+[debug] [Loading] Scanning directory C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC
+[debug]       Load.loadUnit: mkEval took 0.4882ms
+[debug] [Loading] Found root project root w/ remaining 
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.jetbrains.sbt.StructurePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.jetbrains.sbt.IdeaShellPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(org.jetbrains.sbt.StructurePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(org.jetbrains.sbt.IdeaShellPlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.SemanticdbPlugin,sbt.plugins.JUnitXmlReportPlugin,org.jetbrains.sbt.IdeaShellPlugin,org.jetbrains.sbt.StructurePlugin,sbt.plugins.MiniDependencyTreePlugin)
+[debug] Plugins.deducer#function took 2.8859 ms
+[info] loading settings for project root from build.sbt ...
+[debug]         Load.resolveProject(root) took 62.5291ms
+[debug]       Load.loadTransitive: finalizeProject(Project(id root, base: C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC, plugins: List(<none>))) took 68.3454ms
+[debug] [Loading] Done in C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC, returning: (root)
+[debug]     Load.loadUnit: loadedProjectsRaw took 2717.3566ms
+[debug]     Load.loadUnit: cleanEvalClasses took 66.4732ms
+[debug]   Load.loadUnit(file:/C:/Users/pablo/OneDrive/Escritorio/Proyecto_FPFC_simulador_de_polarizacion_en_redes/Proyecto%20-%20FPFC/, ...) took 11013.0057ms
+[debug] Load.apply: load took 11069.5817ms
+[debug] Load.apply: resolveProjects took 0.1523ms
+[debug] Load.apply: finalTransforms took 87.3143ms
+[debug] Load.apply: config.delegates took 0.396ms
+[debug] Load.apply: Def.make(settings)... took 133.0622ms
+[debug] Load.apply: structureIndex took 39.0927ms
+[debug] Load.apply: mkStreams took 0.0022ms
+[info] set current project to Proyecto - FPFC (in build file:/C:/Users/pablo/OneDrive/Escritorio/Proyecto_FPFC_simulador_de_polarizacion_en_redes/Proyecto%20-%20FPFC/)
+[debug] > Exec(sbtPopOnFailure, None, None)
+[debug] > Exec(resumeFromFailure, None, None)
+[debug] > Exec(notifyUsersAboutShell, None, None)
+[debug] > Exec(iflast shell, None, None)
+[debug] > Exec(idea-shell, None, None)

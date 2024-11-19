@@ -6,9 +6,25 @@ package object Opinion {
 //Secuencia de creencias de los agentes entre [0,1]
 type SpecificBelief = Vector[Double]
 
+// es una funcion que recive un entero un SpecificBelief generado por alguna
+// de las funciones proporcionadas.
 type GenericBelief = Int => SpecificBelief
-type AgentsPolMeasure = 
-    (SpecificBelief, DistributionValues) => Double
+
+//recive SpecificBelief y DistributionValues y devuelve un double (medida de polarizacion)
+type AgentsPolMeasure = (SpecificBelief, DistributionValues) => Double
+
+
+
+//types segunda parte Opinion - modelar la evolucion
+
+type WeightedGraph = (Int, Int) => Double
+type SpecificWeightedGraph = (WeightedGraph, Int)
+type GenericWeightedGraph = Int => SpecificWeightedGraph
+type FunctionUpdate = (SpecificBelief, SpecificWeightedGraph) =>SpecificBelief
+
+
+
+
 
     //Función que devuelve comete parametrizada y normalizada para agentes
 def rho(alpha: Double, beta: Double): AgentsPolMeasure = {

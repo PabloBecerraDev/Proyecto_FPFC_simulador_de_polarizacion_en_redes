@@ -1,5 +1,7 @@
 
 import Comete._
+import Opinion._
+
 val cmt1 = rhoCMT_Gen(1.2, 1.2)
 
 val pi_max = Vector(0.5, 0.0, 0.0, 0.0, 0.5)

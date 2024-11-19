@@ -21,8 +21,9 @@ package object Comete {
   def min_p(f: Double => Double, min: Double, max: Double, prec: Double): Double = {
     val intervalo = max - min
     val mid = (min + max) / 2
-    if (intervalo <= prec) mid
-    else {
+    if (intervalo <= prec) {
+      ((mid*1000.0).round)/1000.0
+    }else {
       val left = mid - prec / 2
       val right = mid + prec / 2
       if (f(left) < f(right)) min_p(f, min, mid, prec)
@@ -49,7 +50,8 @@ package object Comete {
         // Función utilizada en min_p para hallar el punto minimo de opinión en la polarización
         val f = (p: Double) => rhoAux(p)
         val min = min_p(f, 0.0, 1.0, 0.001)
-        if (Math.abs(f(min)) < 1e-3) 0.0 else f(min)
+        val result = f(min)
+        ((result * 1000).round) / 1000.0
       }
   }
 
@@ -64,6 +66,9 @@ package object Comete {
     val peorCaso: Distribution = (Vector(0.5, 0.0, 0.0, 0.0, 0.5), Vector(0.0, 0.25, 0.5, 0.75, 1.0))
     //Se normaliza la medida, dividiendo la medida polarizada de la Distribution dada
     //Por la del peor caso
-    (d: Distribution) => m(d)/m(peorCaso)
+    (d: Distribution) => {
+    val result = m(d)/m(peorCaso)
+    ((result * 1000).round) / 1000.0
+    }
   }
 }

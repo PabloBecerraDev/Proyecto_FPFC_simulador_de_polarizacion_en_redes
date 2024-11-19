@@ -1,5 +1,7 @@
 
 import Comete._
+import Opinion._
+
 val cmt1 = rhoCMT_Gen(1.2, 1.2)
 
 val pi_max = Vector(0.5, 0.0, 0.0, 0.0, 0.5)
@@ -41,6 +43,8 @@ cmt1_norm(pi_cons_der, likert5)
 cmt1_norm(pi_cons_izq, likert5)
 
 
+
+//pruebas paquete Opinion
 //Creencias genéricas
 def uniformBelief(nags:Int): SpecificBelief= {
     Vector.tabulate(nags)((i:Int) =>
@@ -102,3 +106,11 @@ rho1 (sb_midly, dist1)
 rho2 (sb_midly, dist1)
 rho1 (sb_midly, dist2)
 rho2 (sb_midly, dist2)
+
+val i1_10=i1(10)
+val i2_10=i2(10)
+val i1_20=i1(20)
+val i2_20=i2(20)
+
+showWeightedGraph(i1_10)
+showWeightedGraph(i2_10)

@@ -1,4 +1,3 @@
-//Importamos todo lo de comete
 import Comete._
 
 package object Opinion {
@@ -26,7 +25,15 @@ type FunctionUpdate = (SpecificBelief, SpecificWeightedGraph) =>SpecificBelief
 
 
 
-    //Función que devuelve comete parametrizada y normalizada para agentes
+// Entrada:
+//   - alpha: Double
+//       Parámetro para ponderar las frecuencias de los agentes en la medida de polarización.
+//   - beta: Double
+//       Parámetro para ponderar las diferencias entre valores de opinión y el punto central.
+// Salida:
+//   - AgentsPolMeasure
+//       Función que, dada una creencia específica (`SpecificBelief`) y valores de
+//       distribución (`DistributionValues`), calcula un valor de polarización para los agentes.
 def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
   (specificBelief: SpecificBelief, distributionValues: DistributionValues) => {
     val numAgents = specificBelief.length
@@ -62,6 +69,52 @@ def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
     // Calcula la medida de polarización normalizada
     normalized((frequency, distributionValues))
   }
+}
+
+
+
+// solo pongo esto aca por que si lo pongo en pruebas me manda error, ademas,
+// es mas eficiente al ejecutarse desde la consola. Pero igual no deberia de estar aca.
+
+
+def i1(nags: Int): SpecificWeightedGraph = {
+  (
+    (i: Int, j: Int) =>
+      if (i == j) 1.0                           // Influencia total de un agente sobre sí mismo.
+      else if (i < j) 1.0 / (j - i).toDouble    // Influencia decrece con la distancia entre agentes.
+      else 0.0,                                 // Sin influencia si i > j.
+    nags
+  )
+}
+
+def i2(nags: Int): SpecificWeightedGraph = {
+  (
+    (i: Int, j: Int) =>
+      if (i == j) 1.0
+      else if (i < j) (j - i).toDouble / nags.toDouble
+      else (nags - (i - j)).toDouble / nags.toDouble,
+    nags
+  )
+}
+
+
+
+// Entrada:
+//   - swg: SpecificWeightedGraph
+//       Una tupla que contiene:
+//       - Una función de influencia (funcionInfluencia: WeightedGraph), que calcula el
+//       peso de la influencia entre dos agentes dados sus índices.
+//       - El número total de agentes (n: Int) en el grafo.
+// Salida:
+//   - IndexedSeq[IndexedSeq[Double]]
+//       Una matriz explícita de influencias, donde cada celda [i][j] contiene el
+//       peso de la influencia del agente i sobre el agente j.
+def showWeightedGraph(swg: SpecificWeightedGraph): IndexedSeq[IndexedSeq[Double]] = {
+  // se parte swg en (funcionInfluencia, n) siendo funcionInfluencia
+  // la funcion de influencia y n la cantidad de agentes
+  val (funcionInfluencia, n) = swg
+  // tabulate recive el numero de agentes y una funcion, en este caso la funcion de influencia
+  IndexedSeq.tabulate(n, n)((i, j) => funcionInfluencia(i, j))
 }
 
 

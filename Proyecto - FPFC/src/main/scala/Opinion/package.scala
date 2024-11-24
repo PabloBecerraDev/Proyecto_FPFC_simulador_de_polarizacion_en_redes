@@ -1,4 +1,6 @@
 import Comete._
+import scala.collection.parallel.CollectionConverters._
+
 
 package object Opinion {
 
@@ -171,5 +173,76 @@ def simulate(fu: FunctionUpdate, swg: SpecificWeightedGraph, b0: SpecificBelief,
   }
   iterar(0, b0, IndexedSeq(b0))
 }
+
+
+//verciones paralelas
+
+// en este caso la funcion es la misma algoritmicamente hablando que rho, unicamente agregue par a las
+// colecciones usadas.
+def rhoPar(alpha: Double, beta: Double): AgentsPolMeasure = {
+  (specificBelief: SpecificBelief, distributionValues: DistributionValues) => {
+    val numAgents = specificBelief.length
+    val k = distributionValues.length
+
+    // Creación de intervalos considerando el primer y último elemento
+    val firstInterval = (0.0, (distributionValues(1) + distributionValues(0)) / 2)
+    val middleIntervals = (1 until k - 1).par.map(i => // Paraleliza el cálculo de los intervalos intermedios
+      ((distributionValues(i) + distributionValues(i - 1)) / 2,
+        (distributionValues(i) + distributionValues(i + 1)) / 2)
+    )
+    val lastInterval = ((distributionValues(k - 2) + distributionValues(k - 1)) / 2, 1.0)
+
+    val intervals = firstInterval +: middleIntervals.toList :+ lastInterval
+
+    // Clasificación de agentes en intervalos
+    val classifiedAgents = specificBelief.par.map { belief =>
+      intervals.indexWhere { case (start, end) => start <= belief && belief < end } match {
+        case -1 => k - 1  // Asigna al último intervalo si no hay coincidencia
+        case idx => idx
+      }
+    }
+
+    // Cálculo de frecuencias relativas por intervalo
+    val frequency = intervals.indices.par.map(i => // Paraleliza el cálculo de frecuencias
+      classifiedAgents.count(_ == i) / numAgents.toDouble
+    ).toVector
+
+    // Calcula la medida de polarización con normalización
+    val rhoAux = rhoCMT_Gen(alpha, beta)
+    val normalized = normalizar(rhoAux)
+
+    // Calcula la medida de polarización normalizada
+    normalized((frequency, distributionValues))
+  }
+}
+
+
+def confBiasUpdatePar(sb: SpecificBelief, swg: SpecificWeightedGraph): SpecificBelief = {
+  val (fI, n) = swg
+  // Divide el rango en dos mitades y paraleliza las tareas principales
+  val (left, right) = common.parallel(
+    (0 until sb.length / 2).par.map { i =>
+      val ai = (0 until sb.length).par.filter(fI(_, i) > 0.0).toList
+      val multiplicacion = (0 until sb.length).par.map { j =>
+        if (ai.contains(j)) {
+          (1 - math.abs(sb(j) - sb(i))) * fI(j, i) * (sb(j) - sb(i))
+        } else 0.0
+      }.sum
+      sb(i) + (if (ai.nonEmpty) multiplicacion / ai.size else 0.0)
+    }.seq, // Convertimos de nuevo a secuencia estándar
+    (sb.length / 2 until sb.length).par.map { i =>
+      val ai = (0 until sb.length).par.filter(fI(_, i) > 0.0).toList
+      val multiplicacion = (0 until sb.length).par.map { j =>
+        if (ai.contains(j)) {
+          (1 - math.abs(sb(j) - sb(i))) * fI(j, i) * (sb(j) - sb(i))
+        } else 0.0
+      }.sum
+      sb(i) + (if (ai.nonEmpty) multiplicacion / ai.size else 0.0)
+    }.seq // Convertimos de nuevo a secuencia estándar
+  )
+  Vector.from(left ++ right)
+}
+
+
 
 }

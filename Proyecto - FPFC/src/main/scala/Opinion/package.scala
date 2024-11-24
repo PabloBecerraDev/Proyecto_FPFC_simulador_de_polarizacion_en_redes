@@ -40,20 +40,20 @@ def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
   (specificBelief: SpecificBelief, distributionValues: DistributionValues) => {
     val numAgents = specificBelief.length
     val k = distributionValues.length
-    // Creación de intervalos considerando el primer y último elemento
-    val firstInterval = (0.0, (distributionValues(1) + distributionValues(0)) / 2)
-    val middleIntervals = (1 until k - 1).map(i => 
-      ((distributionValues(i) + distributionValues(i - 1)) / 2, 
-       (distributionValues(i) + distributionValues(i + 1)) / 2))
-    val lastInterval = ((distributionValues(k - 2) + distributionValues(k - 1)) / 2, 1.0)
 
-    val intervals = firstInterval +: middleIntervals :+ lastInterval
+    // Creación de intervalos
+    val intervals = (0 until k).map(i => {
+      if (i == 0) (0.0, (distributionValues(i) + distributionValues(i + 1)) / 2) // Primer intervalo
+      else if (i == k - 1) ((distributionValues(i - 1) + distributionValues(i)) / 2, 1.0) // Último intervalo
+      else ((distributionValues(i - 1) + distributionValues(i)) / 2, (distributionValues(i) + distributionValues(i + 1)) / 2) // Intervalos intermedios
+    })
 
     // Clasificación de agentes en intervalos
     val classifiedAgents = specificBelief.map { belief =>
-      intervals.indexWhere { case (start, end) => start <= belief && belief < end } match {
-        case -1 => k - 1  // Asigna al último intervalo si no hay coincidencia
-        case idx => idx
+      intervals.indexWhere {
+        case (start, end) =>
+          if (end == 1.0) start <= belief && belief <= end
+          else start <= belief && belief < end
       }
     }
 

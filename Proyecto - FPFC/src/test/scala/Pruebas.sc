@@ -140,3 +140,12 @@ for {
 for {
     b <- simulate(confBiasUpdate, i1_10, sbm_10, 2)
 } yield (b, rho1(b, dist1))
+
+
+//pruebas verciones paralelas
+
+confBiasUpdatePar(sbu_10, i1_10)
+val rhoPar1 = rhoPar(1.2,1.2)
+rhoPar1(sbu_10, dist1)
+rhoPar1(confBiasUpdatePar(sbu_10, i1_10), dist1)
+

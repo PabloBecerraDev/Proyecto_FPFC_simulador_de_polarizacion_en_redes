@@ -38,7 +38,6 @@ def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
   (specificBelief: SpecificBelief, distributionValues: DistributionValues) => {
     val numAgents = specificBelief.length
     val k = distributionValues.length
-
     // Creación de intervalos considerando el primer y último elemento
     val firstInterval = (0.0, (distributionValues(1) + distributionValues(0)) / 2)
     val middleIntervals = (1 until k - 1).map(i => 
@@ -56,7 +55,6 @@ def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
       }
     }
 
-
     // Cálculo de frecuencias relativas por intervalo
     val frequency = intervals.indices.map(i =>
       classifiedAgents.count(_ == i) / numAgents.toDouble
@@ -70,7 +68,6 @@ def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
     normalized((frequency, distributionValues))
   }
 }
-
 
 
 // solo pongo esto aca por que si lo pongo en pruebas me manda error, ademas,
@@ -117,5 +114,62 @@ def showWeightedGraph(swg: SpecificWeightedGraph): IndexedSeq[IndexedSeq[Double]
   IndexedSeq.tabulate(n, n)((i, j) => funcionInfluencia(i, j))
 }
 
+
+// Entrada:
+//   - sb: SpecificBelief
+//       Vector con los Beliefs o opiniones de n agentes
+//   - swg: SpecificWeightedGraph
+//       Tupla con una funcion de influencia, fI(j,i), que dados dos agentes devuelve cuanta influencia
+//       tiene el agente j sobre i y el numero de agentes en el grafo
+// Salida:
+//   - SpecificBelief
+//       Vector con los nuevos Beliefs o opiniones de los n agentes
+def confBiasUpdate(sb: SpecificBelief, swg: SpecificWeightedGraph): SpecificBelief = {
+  // Desestructuramos el grafo de influencia (wI) y el número de agentes (numAgents)
+  val (fI, n) = swg
+  //Queden los nuevos Beliefs en un vector, para que concuerde con el type
+  Vector.from(for {i <- 0 until sb.length
+                   //Se crea el conjunto Ai, con los agentes que tienen una influencia sobre el agente i
+                   ai = (0 until sb.length).filter(fI(_,i) > 0.0)
+
+                   //Realiza la multiplicacion dentro de la sumatoria, con la condicion que el agente j exista en Ai
+                   //Si j no existe en Ai devuelve 0 para que no afecte en la suma
+                   multiplicacion = for {
+                     j <- 0 until sb.length
+                   }yield{
+                     if (ai.exists(_ == j)) {
+                       (1 - math.abs(sb(j) - sb(i)))*(fI(j, i)) *(sb(j) - sb(i))
+                     }else 0
+                   }
+    //Sumar el Belief del agente i con la divison de la sumatoria por la cardinalidad de Ai
+                   }yield sb(i)+(multiplicacion.toList.sum/ai.size))
+}
+
+
+
+// Entrada:
+//   - fu: FunctionUpdate
+//       Función que actualiza las creencias de los agentes con base en las creencias actuales y la red.
+//   - swg: SpecificWeightedGraph
+//       Tupla con una función de influencia fI(j, i) entre agentes y el número total de agentes en el grafo.
+//   - b0: SpecificBelief
+//       Vector con las creencias iniciales de n agentes.
+//   - t: Int
+//       Número de pasos a simular.
+// Salida:
+//   - IndexedSeq[SpecificBelief]
+//       Secuencia de vectores con las creencias de los agentes en cada paso del tiempo.
+def simulate(fu: FunctionUpdate, swg: SpecificWeightedGraph, b0: SpecificBelief, t: Int): IndexedSeq[SpecificBelief] = {
+  // Genera la secuencia de creencias para cada paso hasta t
+  def iterar(pasoActual: Int, creenciasActuales: SpecificBelief, historial: IndexedSeq[SpecificBelief]): IndexedSeq[SpecificBelief] = {
+    if (pasoActual >= t) historial
+    else {
+      // Actualiza las creencias para el siguiente paso
+      val siguienteCreencia = fu(creenciasActuales, swg)
+      iterar(pasoActual + 1, siguienteCreencia, historial :+ siguienteCreencia)
+    }
+  }
+  iterar(0, b0, IndexedSeq(b0))
+}
 
 }

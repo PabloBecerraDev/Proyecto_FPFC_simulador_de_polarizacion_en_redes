@@ -45,11 +45,13 @@ cmt1_norm(pi_cons_izq, likert5)
 
 
 //pruebas paquete Opinion
+
 //Creencias genéricas
 def uniformBelief(nags:Int): SpecificBelief= {
     Vector.tabulate(nags)((i:Int) =>
                         (i+1).toDouble/nags.toDouble)
 }
+
 def midlyBelief(nags:Int):SpecificBelief = {
     val middle= nags/2
     Vector.tabulate(nags)((i:Int) =>
@@ -75,6 +77,8 @@ def consensusBelief(b:Double)(nags:Int):SpecificBelief={
 }
 
 //generamos diferentes creencias especificas de 100 agentes
+
+//pruebas rho
 val sb_ext = allExtremeBelief(100)
 val sb_cons = consensusBelief(0.2)(100)
 val sb_unif = uniformBelief(100)
@@ -107,10 +111,32 @@ rho2 (sb_midly, dist1)
 rho1 (sb_midly, dist2)
 rho2 (sb_midly, dist2)
 
+
+//pruebas showWeightedGraph
 val i1_10=i1(10)
 val i2_10=i2(10)
 val i1_20=i1(20)
 val i2_20=i2(20)
-
 showWeightedGraph(i1_10)
 showWeightedGraph(i2_10)
+
+//confBiasUpdate
+val sbu_10 = uniformBelief(10)
+confBiasUpdate(sbu_10, i1_10)
+rho1(sbu_10, dist1)
+rho1(confBiasUpdate(sbu_10, i1_10), dist1)
+
+val sbm_10 = midlyBelief(10)
+confBiasUpdate(sbm_10, i1_10)
+rho1(sbm_10, dist1)
+rho1(confBiasUpdate(sbm_10, i1_10), dist1)
+
+
+//pruebas simulate
+for {
+    b <- simulate(confBiasUpdate, i1_10, sbu_10, 2)
+} yield (b, rho1(b, dist1))
+
+for {
+    b <- simulate(confBiasUpdate, i1_10, sbm_10, 2)
+} yield (b, rho1(b, dist1))

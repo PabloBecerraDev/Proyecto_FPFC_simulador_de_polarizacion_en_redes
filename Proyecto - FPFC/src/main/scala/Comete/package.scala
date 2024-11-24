@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 package object Comete {
 
     //Vector que contiene los valores de una distribución - debe sumar 1
@@ -18,16 +20,20 @@ package object Comete {
   //   - prec: Double (precisión deseada; cuando el intervalo [min, max] es menor o igual a este valor, se detiene la búsqueda)
   // Salida:
   //   - Double (valor aproximado en el intervalo [min, max] donde f alcanza su valor mínimo)
+  @tailrec
   def min_p(f: Double => Double, min: Double, max: Double, prec: Double): Double = {
     val intervalo = max - min
-    val mid = (min + max) / 2
     if (intervalo <= prec) {
-      ((mid*1000.0).round)/1000.0
-    }else {
-      val left = mid - prec / 2
-      val right = mid + prec / 2
-      if (f(left) < f(right)) min_p(f, min, mid, prec)
-      else min_p(f, mid, max, prec)
+      ((min + max) / 2 * 1000.0).round / 1000.0
+    } else {
+      val step = intervalo / 10
+      val points = (0 to 10).map(i => min + i * step)
+      val evaluations = points.map(p => (p, f(p)))
+      val (bestPoint, _) = evaluations.minBy(_._2)
+      val bestIndex = points.indexOf(bestPoint)
+      val newMin = if (bestIndex == 0) points(0) else points(bestIndex - 1)
+      val newMax = if (bestIndex == points.size - 1) points(bestIndex) else points(bestIndex + 1)
+      min_p(f, newMin, newMax, prec)
     }
   }
 

@@ -1,3 +1,7 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(console, Some(0578444d-34a7-426c-8dba-238baecf126a), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / console[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\target\scala-2.13\classes ...[0m
 [0m[[0m[31merror[0m] [0m[0mC:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\src\main\scala\Opinion\package.scala:227:44: not found: value parallel[0m
 [0m[[0m[31merror[0m] [0m[0m      val (intervalosIzq, intervalosDer) = parallel([0m
 [0m[[0m[31merror[0m] [0m[0m                                           ^[0m
@@ -23,3 +27,7 @@
 [0m[[0m[31merror[0m] [0m[0m      val cmt1norm = normalizar(cmt.join())[0m
 [0m[[0m[31merror[0m] [0m[0m                                    ^[0m
 [0m[[0m[31merror[0m] [0m[0m8 errors found[0m
+[0m[[0m[31merror[0m] [0m[0m(Compile / [31mcompileIncremental[0m) Compilation failed[0m
+[0m[[0m[31merror[0m] [0m[0mTotal time: 7 s, completed 24/11/2024, 5:59:28 p. m.[0m
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(shell, None, None)[0m
+[0m[[0m[0mdebug[0m] [0m[0mForcing garbage collection...[0m

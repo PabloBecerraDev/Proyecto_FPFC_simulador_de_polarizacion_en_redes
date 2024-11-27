@@ -1,7 +1,11 @@
 
 import Comete._
 import Opinion._
+import Benchmark._
+import common._
 
+
+//pruebas rhoCMT_Gen
 val cmt1 = rhoCMT_Gen(1.2, 1.2)
 
 val pi_max = Vector(0.5, 0.0, 0.0, 0.0, 0.5)
@@ -29,6 +33,7 @@ cmt1(pi_cons_der, likert5)
 cmt1(pi_cons_izq, likert5)
 
 
+//pruebas normalizar
 val cmt1_norm = normalizar(cmt1)
 
 cmt1_norm(pi_max, likert5)
@@ -113,6 +118,19 @@ rho2 (sb_midly, dist2)
 
 
 //pruebas showWeightedGraph
+
+
+def i1(nags:Int):SpecificWeightedGraph ={
+    ((i:Int, j:Int) => if (i==j) 1.0
+    else if (i<j) 1.0/(j-i).toDouble
+    else 0.0,nags)
+}
+
+def i2(nags:Int):SpecificWeightedGraph ={
+    ((i:Int, j:Int) => if (i==j) 1.0
+    else if (i<j) (j-i).toDouble/nags.toDouble
+    else (nags-(i-j)).toDouble/nags.toDouble, nags)
+}
 val i1_10=i1(10)
 val i2_10=i2(10)
 val i1_20=i1(20)
@@ -148,4 +166,53 @@ confBiasUpdatePar(sbu_10, i1_10)
 val rhoPar1 = rhoPar(1.2,1.2)
 rhoPar1(sbu_10, dist1)
 rhoPar1(confBiasUpdatePar(sbu_10, i1_10), dist1)
+
+
+//pruebas finales
+
+val likert5 = Vector(0.0, 0.25, 0.5, 0.75, 1.0)
+
+val sbms = for {
+    n <- 2 until 16
+    nags = math.pow(2, n).toInt
+} yield midlyBelief(nags)
+
+val sbes = for {
+    n <- 2 until 16
+    nags = math.pow(2, n).toInt
+} yield allExtremeBelief(nags)
+
+val i1_32768=i1(32768 )
+val i2_32768=i2(32768)
+
+val sbts = for {
+    n <- 2 until 16
+    nags = math.pow(2, n).toInt
+} yield allTripleBelief(nags)
+
+val polSec = rho(1.2, 1.2)
+val polPar = rhoPar(1.2, 1.2)
+
+val cmp1 = compararMedidasPol(sbms, likert5, polSec, polPar)
+
+cmp1.map(t => t._6)
+
+
+
+//val evolsSec = for{
+//    i <- 0 until sbms.length
+//} yield simEvolucion(Seq(sbms(i), sbes(i)))
+
+val evolsSec = for {
+    i <- 0 until sbms.length
+} yield simEvolucion(
+    Seq(sbms(i), sbes(i), sbts(i)),
+    i2_32768,
+    10,
+    polSec,
+    confBiasUpdate,
+    likert5,
+    "Simulacion_Secuencial_" ++ i.toString ++ "-" ++ sbms(i).length.toString
+)
+
 

@@ -1,4 +1,5 @@
 import Comete._
+import  common._
 import scala.collection.parallel.CollectionConverters._
 
 
@@ -72,31 +73,6 @@ def rho(alpha: Double, beta: Double): AgentsPolMeasure = {
 }
 
 
-// solo pongo esto aca por que si lo pongo en pruebas me manda error, ademas,
-// es mas eficiente al ejecutarse desde la consola. Pero igual no deberia de estar aca.
-
-
-def i1(nags: Int): SpecificWeightedGraph = {
-  (
-    (i: Int, j: Int) =>
-      if (i == j) 1.0                           // Influencia total de un agente sobre sí mismo.
-      else if (i < j) 1.0 / (j - i).toDouble    // Influencia decrece con la distancia entre agentes.
-      else 0.0,                                 // Sin influencia si i > j.
-    nags
-  )
-}
-
-def i2(nags: Int): SpecificWeightedGraph = {
-  (
-    (i: Int, j: Int) =>
-      if (i == j) 1.0
-      else if (i < j) (j - i).toDouble / nags.toDouble
-      else (nags - (i - j)).toDouble / nags.toDouble,
-    nags
-  )
-}
-
-
 
 // Entrada:
 //   - swg: SpecificWeightedGraph
@@ -126,26 +102,47 @@ def showWeightedGraph(swg: SpecificWeightedGraph): IndexedSeq[IndexedSeq[Double]
 // Salida:
 //   - SpecificBelief
 //       Vector con los nuevos Beliefs o opiniones de los n agentes
-def confBiasUpdate(sb: SpecificBelief, swg: SpecificWeightedGraph): SpecificBelief = {
-  // Desestructuramos el grafo de influencia (wI) y el número de agentes (numAgents)
-  val (fI, n) = swg
-  //Queden los nuevos Beliefs en un vector, para que concuerde con el type
-  Vector.from(for {i <- 0 until sb.length
-                   //Se crea el conjunto Ai, con los agentes que tienen una influencia sobre el agente i
-                   ai = (0 until sb.length).filter(fI(_,i) > 0.0)
+//def confBiasUpdate(sb: SpecificBelief, swg: SpecificWeightedGraph): SpecificBelief = {
+//  // Desestructuramos el grafo de influencia (wI) y el número de agentes (numAgents)
+//  val (fI, n) = swg
+//  //Queden los nuevos Beliefs en un vector, para que concuerde con el type
+//  Vector.from(for {i <- 0 until sb.length
+//                   //Se crea el conjunto Ai, con los agentes que tienen una influencia sobre el agente i
+//                   ai = (0 until sb.length).filter(fI(_,i) > 0.0)
+//
+//                   //Realiza la multiplicacion dentro de la sumatoria, con la condicion que el agente j exista en Ai
+//                   //Si j no existe en Ai devuelve 0 para que no afecte en la suma
+//                   multiplicacion = for {
+//                     j <- 0 until sb.length
+//                   }yield{
+//                     if (ai.exists(_ == j)) {
+//                       (1 - math.abs(sb(j) - sb(i)))*(fI(j, i)) *(sb(j) - sb(i))
+//                     }else 0
+//                   }
+//    //Sumar el Belief del agente i con la divison de la sumatoria por la cardinalidad de Ai
+//                   }yield sb(i)+(multiplicacion.toList.sum/ai.size))
+//}
 
-                   //Realiza la multiplicacion dentro de la sumatoria, con la condicion que el agente j exista en Ai
-                   //Si j no existe en Ai devuelve 0 para que no afecte en la suma
-                   multiplicacion = for {
-                     j <- 0 until sb.length
-                   }yield{
-                     if (ai.exists(_ == j)) {
-                       (1 - math.abs(sb(j) - sb(i)))*(fI(j, i)) *(sb(j) - sb(i))
-                     }else 0
-                   }
-    //Sumar el Belief del agente i con la divison de la sumatoria por la cardinalidad de Ai
-                   }yield sb(i)+(multiplicacion.toList.sum/ai.size))
-}
+  def confBiasUpdate(sb: SpecificBelief, swg: SpecificWeightedGraph): SpecificBelief = {
+    // Desestructuramos el grafo de influencia (fI) y el número de agentes (n)
+    val (fI, n) = swg
+
+    // Calculamos los nuevos beliefs para todos los agentes
+    Vector.from(for (i <- 0 until sb.length) yield {
+      // Conjunto Ai, agentes que influyen sobre el agente i
+      val ai = (0 until sb.length).filter(fI(_, i) > 0.0).toList
+
+      // Sumatoria de la influencia sobre el agente i
+      val multiplicacion = (0 until sb.length).map { j =>
+        if (ai.contains(j)) {
+          (1 - math.abs(sb(j) - sb(i))) * fI(j, i) * (sb(j) - sb(i))
+        } else 0.0
+      }.sum
+
+      // Actualizamos el belief del agente i
+      sb(i) + (if (ai.nonEmpty) multiplicacion / ai.size else 0.0)
+    })
+  }
 
 
 
@@ -217,6 +214,8 @@ def rhoPar(alpha: Double, beta: Double): AgentsPolMeasure = {
 }
 
 
+
+
 def confBiasUpdatePar(sb: SpecificBelief, swg: SpecificWeightedGraph): SpecificBelief = {
   val (fI, n) = swg
   // Divide el rango en dos mitades y paraleliza las tareas principales
@@ -233,16 +232,14 @@ def confBiasUpdatePar(sb: SpecificBelief, swg: SpecificWeightedGraph): SpecificB
     (sb.length / 2 until sb.length).par.map { i =>
       val ai = (0 until sb.length).par.filter(fI(_, i) > 0.0).toList
       val multiplicacion = (0 until sb.length).par.map { j =>
-        if (ai.contains(j)) {
-          (1 - math.abs(sb(j) - sb(i))) * fI(j, i) * (sb(j) - sb(i))
-        } else 0.0
+        if (ai.exists(_ == j)) {
+          (1 - math.abs(sb(j) - sb(i)))*(fI(j, i)) *(sb(j) - sb(i))
+        }else 0.0
       }.sum
       sb(i) + (if (ai.nonEmpty) multiplicacion / ai.size else 0.0)
     }.seq // Convertimos de nuevo a secuencia estándar
   )
   Vector.from(left ++ right)
 }
-
-
 
 }

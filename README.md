@@ -1,4 +1,4 @@
-# Simulador de polarización en redes
+# 🌐 Simulador de polarización en redes
 
 Este proyecto implementa un simulador de polarización en redes utilizando programación funcional y concurrente en Scala. Tiene como objetivo analizar cómo evoluciona la polarización en redes sociales mediante modelos computacionales. Incluye la implementación de medidas de polarización y simulaciones tanto en versiones secuenciales como paralelas.
 
@@ -7,7 +7,7 @@ El proyecto forma parte de los requisitos del curso Fundamentos de Programación
 
 
 
-## Authors
+## 👩‍💻 Authors
 
 - Alexandra Marmolejo Gomez - 2241424 
     - 
@@ -21,7 +21,7 @@ El proyecto forma parte de los requisitos del curso Fundamentos de Programación
 
 
 
-## Technology used
+## 🛠️ Technology used
 
 Lenguaje: Scala
 
@@ -31,7 +31,7 @@ Librerías: org.scalameter
 
 
     
-## Structure
+## 📂 Structure
 Este proyecto contiene 2 paquetes esenciales que son el paquete *Comete* que contiene las funciones relacionadas con el cálculo de medidas de polarización basadas en distribuciones matemáticas y el paquete *Opinion* que es el responsable de modelar las redes, representar las creencias de los agentes y simular su evolución en el tiempo, además usamos un paquete *Benchmark* para hacer análisis comparativos entre versiones secuenciales y concurrentes.
 
 La estructura del proyecto es la siguiente:
@@ -62,7 +62,7 @@ La estructura del proyecto es la siguiente:
     - simulate: Simula la evolución de creencias en una red
     - confBiasUpdate: Aplica el sesgo de confirmación a las creencias de los agentes.
     
-## How to run
+## 🚀 How to run
 1. [⌨️] Clonar el repositorio
 ~~~
 git clone https://github.com/PabloBecerraDev/Proyecto_FPFC_simulador_de_polarizacion_en_redes.git

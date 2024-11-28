@@ -1,0 +1,5 @@
+[0m[[0m[0mdebug[0m] [0m[0m> Exec(console, Some(b8984003-95e6-4734-afb0-f81240611bdd), Some(CommandSource(console0)))[0m
+[0m[[0m[0mdebug[0m] [0m[0mEvaluating tasks: Compile / console[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning task... Cancel: Signal, check cycles: false, forcegc: true[0m
+[0m[[0m[0minfo[0m] [0m[0mcompiling 1 Scala source to C:\Users\pablo\OneDrive\Escritorio\Proyecto_FPFC_simulador_de_polarizacion_en_redes\Proyecto - FPFC\target\scala-2.13\classes ...[0m
+[0m[[0m[0minfo[0m] [0m[0mStarting scala interpreter...[0m

@@ -23,11 +23,19 @@ El proyecto forma parte de los requisitos del curso Fundamentos de Programación
 
 ## 🛠️ Technology used
 
-Lenguaje: Scala
+<p align="center">
+  <a href="https://www.scala-lang.org" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Scala-full-color.svg" alt="Logo de Scala" width="120"/>
+  </a>&nbsp;&nbsp;&nbsp;
+  <a href="https://www.jetbrains.com/idea/" target="_blank">
+    <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/IntelliJ_IDEA_icon.svg" alt="Logo de IntelliJ IDEA" width="80"/>
+  </a>&nbsp;&nbsp;&nbsp;
+  <a href="https://www.scala-sbt.org/" target="_blank">
+    <img src="https://keepcoding.io/wp-content/uploads/2022/06/image-3.png" alt="Logo de sbt" width="100"/>
+  </a>
+</p>
 
-Herramientas: Intellij idea, sbt
 
-Librerías: org.scalameter
 
 
     

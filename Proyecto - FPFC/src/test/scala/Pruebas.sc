@@ -1,4 +1,3 @@
-
 import Comete._
 import Opinion._
 import Benchmark._
@@ -54,7 +53,7 @@ cmt1_norm(pi_cons_izq, likert5)
 //Creencias genéricas
 def uniformBelief(nags:Int): SpecificBelief= {
     Vector.tabulate(nags)((i:Int) =>
-                        (i+1).toDouble/nags.toDouble)
+        (i+1).toDouble/nags.toDouble)
 }
 
 def midlyBelief(nags:Int):SpecificBelief = {
@@ -66,16 +65,16 @@ def midlyBelief(nags:Int):SpecificBelief = {
 def allExtremeBelief(nags:Int):SpecificBelief = {
     val middle = nags/2
     Vector.tabulate(nags)((i:Int)=>
-            if (i < middle)0.0 else 1.0)
+        if (i < middle)0.0 else 1.0)
 }
 
 def allTripleBelief(nags:Int):SpecificBelief={
     val oneThird = nags/3
-    val twoThird = (nags/3)*2 
+    val twoThird = (nags/3)*2
     Vector.tabulate(nags)((i:Int)=>
-            if (i < oneThird)0.0
-            else if (i>=twoThird)1.0
-                else 0.5)
+        if (i < oneThird)0.0
+        else if (i>=twoThird)1.0
+        else 0.5)
 }
 def consensusBelief(b:Double)(nags:Int):SpecificBelief={
     Vector.tabulate(nags)((i:Int)=>b)
@@ -172,6 +171,7 @@ rhoPar1(confBiasUpdatePar(sbu_10, i1_10), dist1)
 
 val likert5 = Vector(0.0, 0.25, 0.5, 0.75, 1.0)
 
+// medidas vs
 val sbms = for {
     n <- 2 until 16
     nags = math.pow(2, n).toInt
@@ -182,27 +182,26 @@ val sbes = for {
     nags = math.pow(2, n).toInt
 } yield allExtremeBelief(nags)
 
-val i1_32768=i1(32768 )
-val i2_32768=i2(32768)
-
 val sbts = for {
     n <- 2 until 16
     nags = math.pow(2, n).toInt
 } yield allTripleBelief(nags)
+
+val i1_32768=i1(32768)
+val i2_32768=i2(32768)
 
 val polSec = rho(1.2, 1.2)
 val polPar = rhoPar(1.2, 1.2)
 
 val cmp1 = compararMedidasPol(sbms, likert5, polSec, polPar)
 
+compararFuncionesAct(sbms.take(sbms.length/2),
+    i2_32768, confBiasUpdate, confBiasUpdatePar)
+
 cmp1.map(t => t._6)
 
 
-
-//val evolsSec = for{
-//    i <- 0 until sbms.length
-//} yield simEvolucion(Seq(sbms(i), sbes(i)))
-
+//generar las graficas
 val evolsSec = for {
     i <- 0 until sbms.length
 } yield simEvolucion(
@@ -215,4 +214,15 @@ val evolsSec = for {
     "Simulacion_Secuencial_" ++ i.toString ++ "-" ++ sbms(i).length.toString
 )
 
-
+//generar las graficas
+val evolsPar = for {
+    i <- 0 until sbms.length
+} yield simEvolucion(
+    Seq(sbms(i), sbes(i), sbts(i)),
+    i2_32768,
+    10,
+    polPar,
+    confBiasUpdatePar,
+    likert5,
+    "Simulacion_Paralela" ++ i.toString ++ "-" ++ sbms(i).length.toString
+)
